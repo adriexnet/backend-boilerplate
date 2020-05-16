@@ -109,6 +109,7 @@ At this point you can run `make run`, you can check the services runing on:
 
 - hapi at http://localhost:9090
 - hasura at http://localhost:9695
+- wallet at http://localhost:8888
 
 ## License
 

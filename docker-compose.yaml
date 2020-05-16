@@ -1,5 +1,12 @@
 version: "3.6"
 services:
+  wallet:
+    container_name: "${STAGE}-${APP_NAME}-wallet"
+    build: ./wallet
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./wallet_data:/opt/application/data
   postgres:
     container_name: "${STAGE}-${APP_NAME}-postgres"
     image: postgres:11.5-alpine

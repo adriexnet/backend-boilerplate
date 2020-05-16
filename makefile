@@ -12,6 +12,7 @@ run: ##@local Run the project locally
 run:
 	@$(SHELL_EXPORT) [ -f .env ] && source .env || echo "$(YELLOW)WARNING:$(RESET) .env file not found"
 	@$(SHELL_EXPORT) docker-compose up -d --build postgres
+	@$(SHELL_EXPORT) docker-compose up -d --build wallet
 	@until \
 		docker-compose exec postgres pg_isready; \
 		do echo "$(BLUE)INFO$(RESET) waiting for postgres service"; \
