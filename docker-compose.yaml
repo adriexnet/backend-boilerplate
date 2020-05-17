@@ -6,14 +6,14 @@ services:
     ports:
       - "8888:8888"
     volumes:
-      - ./wallet_data:/opt/application/data
+      - ${WALLET_DATA}:/opt/application/data
   postgres:
     container_name: "${STAGE}-${APP_NAME}-postgres"
     image: postgres:11.5-alpine
     ports:
       - "5432:5432"
     volumes:
-      - ./db_data:/var/lib/postgresql/data
+      - ${POSTGRES_DATA}:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: "${POSTGRES_USER}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
@@ -26,8 +26,8 @@ services:
     volumes:
       - ./hapi:/usr/app
     environment:
-      PORT: "${PORT}"
-      HOST_ADDRESS: "${HOST_ADDRESS}"
+      SERVER_PORT: "${SERVER_PORT}"
+      SERVER_ADDRESS: "${SERVER_ADDRESS}"
       HASURA_URL: "${HASURA_URL}"
       HASURA_ADMIN_SECRET: "${HASURA_ADMIN_SECRET}"
     restart: on-failure
@@ -48,3 +48,28 @@ services:
     depends_on:
       - postgres
     restart: on-failure
+  webapp:
+    container_name: "${STAGE}-${APP_NAME}-webapp"
+    build: ./webapp
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./webapp/build:/usr/share/nginx/html
+    environment:
+      REACT_APP_EOS_API_HOST: "${REACT_APP_EOS_API_HOST}"
+      REACT_APP_EOS_API_PORT: "${REACT_APP_EOS_API_PORT}"
+      REACT_APP_EOS_API_PROTOCOL: "${REACT_APP_EOS_API_PROTOCOL}"
+      REACT_APP_EOS_CHAIN_ID: "${REACT_APP_EOS_CHAIN_ID}"
+    depends_on:
+      - hasura
+    restart: on-failure
+  nginx:
+    container_name: "${STAGE}-${APP_NAME}-nginx"
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ${NGNIX_CERTIFICATE}:/opt/application/certificate.pem
+      - ${NGNIX_CERTIFICATE_KEY}:/opt/application/private_key.pem
+    ports:
+      - 80:80
+      - 443:443

@@ -80,12 +80,16 @@ Somethings you need before getting started:
 ```
 # global
 STAGE=dev
-APP_NAME=eoscr-backend-boilerplate
+APP_NAME=eoscr-boilerplate
+
+# wallet
+WALLET_DATA=./wallet_data
 
 # postgres
 POSTGRES_USER=eoscr
 POSTGRES_PASSWORD=password
 POSTGRES_DB=localdb
+POSTGRES_DATA=./db_data
 
 # hasura
 HASURA_GRAPHQL_ENABLE_CONSOLE=true
@@ -95,12 +99,23 @@ HASURA_GRAPHQL_ADMIN_SECRET=myadminsecretkey
 HASURA_GRAPHQL_UNAUTHORIZED_ROLE=guest
 
 # hapi
-PORT=9090
-HOST_ADDRESS=0.0.0.0
-EOS_API_ENDPOINT=https://jungle.eosio.cr
+SERVER_PORT=9090
+SERVER_ADDRESS=0.0.0.0
+EOS_API_ENDPOINT=https://jungle2.eosio.cr
 EOS_API_PRIVATE_KEY=secrect
 HASURA_ADMIN_SECRET=myadminsecretkey
 HASURA_URL=http://localhost:8085/v1/graphql
+
+# webapp
+PORT=3000
+REACT_APP_EOS_API_HOST=jungle2.eosio.cr
+REACT_APP_EOS_API_PORT=443
+REACT_APP_EOS_API_PROTOCOL=https
+REACT_APP_EOS_CHAIN_ID=e70aaab8997e1dfce58fbfac80cbbb8fecec7b99cf982a9444273cbc64c41473
+
+# nginx
+NGNIX_CERTIFICATE=./nginx-selfsigned.cr
+NGNIX_CERTIFICATE_KEY=./nginx-selfsigned.key
 ```
 
 ### Quick start
@@ -110,6 +125,7 @@ At this point you can run `make run`, you can check the services runing on:
 - hapi at http://localhost:9090
 - hasura at http://localhost:9695
 - wallet at http://localhost:8888
+- webapp at http://localhost:3000
 
 ## License
 
